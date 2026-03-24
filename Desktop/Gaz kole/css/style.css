@@ -284,7 +284,7 @@ body {
 }
 
 .app-features li::before {
-    content: 'âœ“';
+    content: "\2713";
     color: var(--primary-green);
     font-weight: bold;
 }
