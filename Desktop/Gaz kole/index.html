@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaz Kole - Platfòm Transpò</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-TdXc5Qv5xOcs0HWmjKpG1v5zYFxOrpvxaEjCNSxF8YgM9opx76qBcaWZxr4GD4tY7loqmDr8X8xCfxQghx7Qig==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛵</text></svg>">
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places" async defer></script>
+    
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Logo Gaz Kole" class="logo-img">
+            <div class="logo-text">Gaz <span>Kole</span></div>
+        </div>
+        <nav class="nav">
+            <a href="#home" data-translate="home">Akèy</a>
+            <a href="#client" data-target="client-page" data-translate="client">Kliyan</a>
+            <a href="#driver" data-target="driver-page" data-translate="driver">Chofè</a>
+            <a href="#admin" data-target="admin-page" data-translate="admin">Admin</a>
+        </nav>
+        <div class="language-selector">
+            <button class="lang-btn" data-lang="ht">HT</button>
+            <button class="lang-btn" data-lang="fr">FR</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <button class="notification-btn" id="notificationBtn">
+            <span>🔔</span>
+            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+        </button>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-translate="heroTitle">Gaz <span>Kole</span></h1>
+                <p data-translate="heroSubtitle">Platfòm Transpò ki pi rapid epi sekirite nan peyi a</p>
+                <p data-translate="heroDesc">Chwazi destinasyon ou, jwenn yon chofè pre ou, epi rive nan destinasyon ou byen vit ak san pwoblèm.</p>
+                <a href="#apps" class="btn btn-primary" data-translate="getStarted">Kòmanse</a>
+            </div>
+        </section>
+
+        <!-- Apps Section -->
+        <section id="apps" class="apps-section">
+            <h2 class="section-title" data-translate="appsTitle">Aplikasyon <span>yo</span></h2>
+            <div class="apps-container">
+                <!-- Client App Card -->
+                <div class="app-card client" data-target="client-page">
+                    <div class="app-icon"><i class="fa-solid fa-car-side"></i></div>
+                    <h3 data-translate="clientApp">Aplikasyon Kliyan</h3>
+                    <p data-translate="clientAppDesc">Pou moun ki vle voyage</p>
+                    <ul id="client-features" class="app-features">
+                        <li>Kreye kont</li>
+                        <li>Antre kote ou ye</li>
+                        <li>Chwazi destinasyon</li>
+                        <li>Wè pri kous la</li>
+                        <li>Chwazi moto oswa taxi</li>
+                        <li>Swiv chofè a sou kat</li>
+                        <li>Peye MonCash / NatCash</li>
+                        <li>Evalye chofè a</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" data-target="client-page" data-translate="getStarted">Kòmanse</a>
+                </div>
+
+                <!-- Driver App Card -->
+                <div class="app-card driver" data-target="driver-page">
+                    <div class="app-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                    <h3 data-translate="driverApp">Aplikasyon Chofè</h3>
+                    <p data-translate="driverAppDesc">Pou chofè ki vle Travay</p>
+                    <ul id="driver-features" class="app-features">
+                        <li>Enskripsyon chofè</li>
+                        <li>Upload dokiman</li>
+                        <li>Resevwa demand kous</li>
+                        <li>Aksepte / Refize</li>
+                        <li>Navigasyon GPS</li>
+                        <li>Wè lajan li touche</li>
+                        <li>Retire lajan</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" data-target="driver-page" data-translate="getStarted">Kòmanse</a>
+                </div>
+
+                <!-- Admin App Card -->
+                <div class="app-card admin" data-target="admin-page">
+                    <div class="app-icon"><i class="fa-solid fa-gear"></i></div>
+                    <h3 data-translate="adminApp">Dashboard Admin</h3>
+                    <p data-translate="adminAppDesc">Pou administratè sistèm nan</p>
+                    <ul id="admin-features" class="app-features">
+                        <li>Jere chofè</li>
+                        <li>Jere kliyan</li>
+                        <li>Wè tout kous</li>
+                        <li>Kontwole peman</li>
+                        <li>Statistiques</li>
+                        <li>Bloke kont si gen pwoblèm</li>
+                    </ul>
+                    <a href="#" class="btn btn-dark" data-target="admin-page" data-translate="getStarted">Kòmanse</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">Gaz <span>Kole</span></div>
+                <div class="footer-links">
+                    <a href="#">Kijan sa travay</a>
+                    <a href="#">Kondisyon itilizasyon</a>
+                    <a href="#">Politik vi pwive</a>
+                    <a href="#">Kontakte nou</a>
+                </div>
+                <p data-translate="footerText">© 2024 Gaz Kole. Tout dwa rezève.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Client App Page -->
+    <div id="client-page" class="page">
+        <button class="back-btn" onclick="showPage('home')">← <span data-translate="back">Retounen</span></button>
+        
+        <div class="client-app">
+            <div class="client-hero">
+                <h2 data-translate="clientTitle">Aplikasyon Kliyan</h2>
+            </div>
+
+            <!-- Location Inputs -->
+            <div class="location-inputs">
+                <div class="input-group">
+                    <label data-translate="currentLocation">Kote ou ye</label>
+                    <input type="text" id="currentLocation" data-translate-placeholder="currentLocationPlaceholder" placeholder="Antre kote ou ye...">
+                </div>
+                <div class="input-group">
+                    <label data-translate="destination">Destinasyon</label>
+                    <input type="text" id="destination" data-translate-placeholder="destinationPlaceholder" placeholder="Antre destinasyon ou...">
+                </div>
+                <button id="calculatePrice" class="btn btn-primary" style="width: 100%;" data-translate="calculatePrice">Kalkile Pri</button>
+            </div>
+
+            <!-- Ride Options -->
+            <div class="location-inputs" id="rideOptionsSection" style="display: none;">
+                <h3 data-translate="selectVehicle">Chwazi Veyikil</h3>
+                <div class="ride-options">
+                    <div class="ride-option" data-vehicle="moto">
+                        <div class="icon">🏍️</div>
+                        <h4 data-translate="motorcycle">Moto</h4>
+                        <div class="price">150 HTG</div>
+                    </div>
+                    <div class="ride-option" data-vehicle="taxi">
+                        <div class="icon">🚕</div>
+                        <h4 data-translate="taxi">Taxi</h4>
+                        <div class="price">300 HTG</div>
+                    </div>
+                </div>
+                
+                <div id="priceDisplay" style="display: none; text-align: center; margin: 20px 0;">
+                    <span data-translate="price">Pri:</span> <strong id="priceValue">0 HTG</strong>
+                </div>
+
+                <h3 data-translate="paymentMethod">Metòd Peman</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" data-payment="moncash">
+                        <div>📱</div>
+                        <span data-translate="moncash">MonCash</span>
+                    </div>
+                    <div class="payment-method" data-payment="natcash">
+                        <div>💳</div>
+                        <span data-translate="natcash">NatCash</span>
+                    </div>
+                    <div class="payment-method" data-payment="cash">
+                        <div>💵</div>
+                        <span data-translate="cash">Kash</span>
+                    </div>
+                </div>
+
+                <button id="confirmRide" class="btn btn-primary" style="width: 100%;" data-translate="confirmRide">Konfime Kous</button>
+            </div>
+
+<!-- Tracking Section -->
+            <div id="trackingSection" class="location-inputs" style="display: none;">
+                <h3 data-translate="trackDriver">Swiv Chofè a</h3>
+                <div id="mapContainer" class="map-container">
+                    <div id="clientMap"></div>
+                </div>
+                <div id="driverInfo" style="text-align: center;">
+                    <p><strong><span data-translate="driver">Chofè:</span></strong> Jean Dupont</p>
+                    <p>⭐ 4.8/5</p>
+                    <p>🚗 Toyota Prius (Bla 1234)</p>
+                    <p id="etaDisplay"><span data-translate="eta">Tan estime:</span> <strong id="etaValue">5 minit</strong></p>
+                </div>
+                <button id="completeRideClient" class="btn btn-primary" style="width: 100%; margin-top: 20px;" data-translate="completeRide">Fini Kous</button>
+            </div>
+
+            <!-- Rating Section -->
+            <div id="ratingSection" class="location-inputs" style="display: none;">
+                <h3 data-translate="rateDriver">Evalye Chofè a</h3>
+                <p data-translate="rateText" style="text-align: center; margin: 20px 0;">Ki jan ou satisfè?</p>
+                <div class="rating">
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="showPage('home')">Mèsi! 🙏</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Driver App Page -->
+    <div id="driver-page" class="page">
+        <button class="back-btn" onclick="showPage('home')">← <span data-translate="back">Retounen</span></button>
+        
+        <div class="driver-app">
+            <div class="driver-hero">
+                <h2 data-translate="driverTitle">Aplikasyon Chofè</h2>
+            </div>
+            <!-- Driver Account Creation -->
+            <div id="driverSignupSection" class="location-inputs">
+                <h3>Kreye Kont Chofe</h3>
+                <div class="driver-signup-grid">
+                    <div class="input-group">
+                        <label for="driverName">Non konple</label>
+                        <input type="text" id="driverName" placeholder="Egzanp: Jean Pierre">
+                    </div>
+                    <div class="input-group">
+                        <label for="driverPhone">Telefon</label>
+                        <input type="tel" id="driverPhone" placeholder="+509 XXXX XXXX">
+                    </div>
+                    <div class="input-group">
+                        <label for="driverEmail">Imel</label>
+                        <input type="email" id="driverEmail" placeholder="ou@egzanp.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="driverPassword">Modpas</label>
+                        <input type="password" id="driverPassword" placeholder="Antre modpas">
+                    </div>
+                    <div class="input-group">
+                        <label for="driverVehicleType">Kalite Veyikil</label>
+                        <select id="driverVehicleType">
+                            <option value="">Chwazi...</option>
+                            <option value="moto">Moto</option>
+                            <option value="taxi">Taxi</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="driverPlate">Plak machin/moto</label>
+                        <input type="text" id="driverPlate" placeholder="Egzanp: AB-12345">
+                    </div>
+                </div>
+                <button id="createDriverAccount" class="btn btn-secondary" style="width: 100%;">Kreye Kont</button>
+                <p id="driverAccountMessage" style="display: none; margin-top: 12px; color: var(--primary-green); font-weight: 600;"></p>
+            </div>
+
+            <!-- Driver Status -->
+            <div class="driver-status">
+                <div class="status-card">
+                    <h4 data-translate="onlineStatus">Estati:</h4>
+                    <span id="statusText" style="color: #ff4444; font-weight: 600;" data-translate="offline">Dekonekte</span>
+                    <br><br>
+                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <input type="checkbox" id="statusToggle" style="width: 20px; height: 20px;">
+                        <span data-translate="online">Enliy</span>
+                    </label>
+                </div>
+                <div class="status-card">
+                    <h4 data-translate="totalEarnings">Total Ganany</h4>
+                    <span class="value">12,500 HTG</span>
+                </div>
+                <div class="status-card">
+                    <h4 data-translate="todayRides">Kous Jodi a</h4>
+                    <span class="value">8 <small data-translate="rides">kous</small></span>
+                </div>
+            </div>
+
+            <!-- Ride Request -->
+            <div id="rideRequest" class="ride-request">
+                <h3>🚨 <span data-translate="newRequest">Nouvo Demand!</span></h3>
+                <div class="request-details">
+                    <div class="detail-item">
+                        <label data-translate="pickupLocation">Lè vize Pick-up:</label>
+                        <span>Rue Montagne, Petyon-Vil</span>
+                    </div>
+                    <div class="detail-item">
+                        <label data-translate="dropoffLocation">Destinasyon:</label>
+                        <span>Aeropò Intènasyonal Toussaint Louverture</span>
+                    </div>
+                    <div class="detail-item">
+                        <label data-translate="distance">Distans:</label>
+                        <span>15 km</span>
+                    </div>
+                    <div class="detail-item">
+                        <label data-translate="estimatedEarnings">Estime Ganany:</label>
+                        <span style="color: #00C853; font-weight: bold;">450 HTG</span>
+                    </div>
+                </div>
+                <div class="request-actions">
+                    <button id="acceptRide" class="btn btn-secondary" data-translate="accept">Aksepte</button>
+                    <button id="declineRide" class="btn btn-dark" data-translate="decline">Refize</button>
+                </div>
+            </div>
+
+<!-- Ride In Progress -->
+            <div id="rideInProgress" class="location-inputs" style="display: none;">
+                <h3>🚗 <span data-translate="rideInProgress">Kous la k ap fèt...</span></h3>
+                <div id="driverMapContainer" class="map-container">
+                    <div id="driverMap"></div>
+                </div>
+                <div id="navigationInfo" style="text-align: center; margin: 15px 0;">
+                    <p><strong data-translate="navigateTo">Navige nan:</strong> <span id="navDestination">Aeropò Intènasyonal</span></p>
+                    <p id="distanceDisplay"><span data-translate="distanceRemaining">Distans ki rete:</span> <strong id="distanceValue">8.5 km</strong></p>
+                </div>
+                <button id="startRideBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" data-translate="startRide">Kòmanse Kous</button>
+                <button id="completeRideBtn" class="btn btn-secondary" style="width: 100%;" data-translate="completeRide">Fini Kous</button>
+            </div>
+
+            <!-- Driver Menu -->
+            <div class="location-inputs">
+                <h3>📋 Menu</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                    <button class="btn btn-dark" data-translate="documents">Dokiman</button>
+                    <button class="btn btn-dark" data-translate="earnings">Ganany</button>
+                    <button class="btn btn-primary" data-translate="withdraw">Retire Lajan</button>
+                    <button class="btn btn-dark" onclick="showPage('home')" data-translate="back">Retounen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Page -->
+    <div id="admin-page" class="page">
+        <button class="back-btn" onclick="showPage('home')">← <span data-translate="back">Retounen</span></button>
+        
+        <div class="admin-app">
+            <div class="admin-hero">
+                <h2 data-translate="adminTitle">Dashboard Admin</h2>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card users">
+                    <h4 data-translate="totalUsers">Total Itilizatè</h4>
+                    <span class="value">2,450</span>
+                </div>
+                <div class="stat-card drivers">
+                    <h4 data-translate="totalDrivers">Total Chofè</h4>
+                    <span class="value">380</span>
+                </div>
+                <div class="stat-card rides">
+                    <h4 data-translate="totalRides">Total Kous</h4>
+                    <span class="value">15,230</span>
+                </div>
+                <div class="stat-card revenue">
+                    <h4 data-translate="totalRevenue">Total Revni</h4>
+                    <span class="value">45,200,000 HTG</span>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="admin-table">
+                <h3 data-translate="users">Itilizatè yo</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-translate="name">Non</th>
+                            <th data-translate="email">Imèl</th>
+                            <th data-translate="phone">Telefòn</th>
+                            <th data-translate="status">Estati</th>
+                            <th data-translate="actions">Aksyon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marie Jean</td>
+                            <td>marie@example.com</td>
+                            <td>+509 1234 5678</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Bloke</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jean Pierre</td>
+                            <td>jean@example.com</td>
+                            <td>+509 2345 6789</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Bloke</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Claire Dubois</td>
+                            <td>claire@example.com</td>
+                            <td>+509 3456 7890</td>
+                            <td><span class="status-badge pending">tann</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Bloke</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Drivers Table -->
+            <div class="admin-table" style="margin-top: 30px;">
+                <h3 data-translate="drivers">Chofè yo</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-translate="name">Non</th>
+                            <th data-translate="email">Imèl</th>
+                            <th data-translate="phone">Telefòn</th>
+                            <th data-translate="status">Estati</th>
+                            <th data-translate="actions">Aksyon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Michel Salomon</td>
+                            <td>michel@example.com</td>
+                            <td>+509 4567 8901</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Bloke</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Robert Joseph</td>
+                            <td>robert@example.com</td>
+                            <td>+509 5678 9012</td>
+                            <td><span class="status-badge blocked">Bloke</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Debloke</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>James Peterson</td>
+                            <td>james@example.com</td>
+                            <td>+509 6789 0123</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="action-btn view">Wè</button>
+                                <button class="action-btn block">Bloke</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- All Rides Table -->
+            <div class="admin-table" style="margin-top: 30px;">
+                <h3 data-translate="allRides">Tout Kous yo</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th data-translate="name">Kliyan</th>
+                            <th data-translate="name">Chofè</th>
+                            <th>Itineraire</th>
+                            <th>Pri</th>
+                            <th data-translate="status">Estati</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1001</td>
+                            <td>Marie Jean</td>
+                            <td>Michel Salomon</td>
+                            <td>Petyon-Vil → Tabarre</td>
+                            <td>250 HTG</td>
+                            <td><span class="status-badge active">Fini</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1002</td>
+                            <td>Jean Pierre</td>
+                            <td>James Peterson</td>
+                            <td>Carrefour → Delmas</td>
+                            <td>300 HTG</td>
+                            <td><span class="status-badge active">Fini</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1003</td>
+                            <td>Claire Dubois</td>
+                            <td>Michel Salomon</td>
+                            <td>Place Boyer → Aeropò</td>
+                            <td>500 HTG</td>
+                            <td><span class="status-badge pending">An kous</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- Payment Modal -->
+    <div id="paymentModal" class="payment-modal" style="display: none;">
+        <div class="payment-modal-content">
+            <span class="close-payment" onclick="closePaymentModal()">&times;</span>
+            <h3 data-translate="processingPayment">Pwosesis Peman...</h3>
+            <div class="payment-loader">
+                <div class="spinner"></div>
+            </div>
+            <p id="paymentInstructions">Peye ak <span id="paymentMethodName">MonCash</span></p>
+            <div id="paymentDetails">
+                <p><strong>Nimewo:</strong> ******1234</p>
+                <p><strong>Montan:</strong> <span id="paymentAmount">300 HTG</span></p>
+            </div>
+            <p class="payment-hint" data-translate="paymentHint">Voye lajan nan nimewo sa a, puis tape kòd la.</p>
+            <input type="text" id="paymentCode" class="payment-code-input" placeholder="Antre kòd peman">
+            <button id="confirmPayment" class="btn btn-primary" style="width: 100%; margin-top: 15px;" data-translate="confirmPayment">Konfime Peman</button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notificationToast" class="notification-toast" style="display: none;">
+        <div class="toast-content">
+            <span class="toast-icon">🔔</span>
+            <div class="toast-message">
+                <strong id="toastTitle">Nouvo Mesaj</strong>
+                <p id="toastBody">Ou gen yon nouvo demand!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+
+
